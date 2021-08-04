@@ -146,14 +146,14 @@ class _ShimmerState extends State<Shimmer> with SingleTickerProviderStateMixin {
           _controller.forward(from: 0.0);
         }
       });
-    if (widget.enabled && !widget.hide) {
+    if (widget.enabled) {
       _controller.forward();
     }
   }
 
   @override
   void didUpdateWidget(Shimmer oldWidget) {
-    if (widget.enabled && !widget.hide) {
+    if (widget.enabled) {
       _controller.forward();
     } else {
       _controller.stop();
