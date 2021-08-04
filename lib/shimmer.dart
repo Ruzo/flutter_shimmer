@@ -72,6 +72,7 @@ class Shimmer extends StatefulWidget {
     this.period = const Duration(milliseconds: 1500),
     this.loop = 0,
     this.enabled = true,
+    this.hide = false,
   }) : super(key: key);
 
   ///
@@ -88,6 +89,7 @@ class Shimmer extends StatefulWidget {
     this.direction = ShimmerDirection.ltr,
     this.loop = 0,
     this.enabled = true,
+    this.hide = false,
   })  : gradient = LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.centerRight,
@@ -143,14 +145,14 @@ class _ShimmerState extends State<Shimmer> with SingleTickerProviderStateMixin {
           _controller.forward(from: 0.0);
         }
       });
-    if (widget.enabled) {
+    if (widget.enabled && !widget.hide) {
       _controller.forward();
     }
   }
 
   @override
   void didUpdateWidget(Shimmer oldWidget) {
-    if (widget.enabled) {
+    if (widget.enabled && !widget.hide) {
       _controller.forward();
     } else {
       _controller.stop();
@@ -160,6 +162,7 @@ class _ShimmerState extends State<Shimmer> with SingleTickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    if (widget.hide) return widget.child;
     return AnimatedBuilder(
       animation: _controller,
       child: widget.child,
