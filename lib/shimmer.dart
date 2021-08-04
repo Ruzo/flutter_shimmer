@@ -63,6 +63,7 @@ class Shimmer extends StatefulWidget {
   final Gradient gradient;
   final int loop;
   final bool enabled;
+  final bool hide;
 
   const Shimmer({
     Key? key,
