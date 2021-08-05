@@ -63,7 +63,8 @@ class Shimmer extends StatefulWidget {
   final Gradient gradient;
   final int loop;
   final bool enabled;
-  final bool hide;
+  ///Set to true to bypass effect and display child.
+  final bool bypassEffect;
 
   const Shimmer({
     Key? key,
@@ -73,7 +74,7 @@ class Shimmer extends StatefulWidget {
     this.period = const Duration(milliseconds: 1500),
     this.loop = 0,
     this.enabled = true,
-    this.hide = false,
+    this.bypassEffect = false,
   }) : super(key: key);
 
   ///
@@ -90,7 +91,7 @@ class Shimmer extends StatefulWidget {
     this.direction = ShimmerDirection.ltr,
     this.loop = 0,
     this.enabled = true,
-    this.hide = false,
+    this.bypassEffect = false,
   })  : gradient = LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.centerRight,
@@ -146,14 +147,14 @@ class _ShimmerState extends State<Shimmer> with SingleTickerProviderStateMixin {
           _controller.forward(from: 0.0);
         }
       });
-    if (widget.enabled) {
+    if (widget.enabled  && !widget.bypassEffect) {
       _controller.forward();
     }
   }
 
   @override
   void didUpdateWidget(Shimmer oldWidget) {
-    if (widget.enabled) {
+    if (widget.enabled && !widget.bypassEffect) {
       _controller.forward();
     } else {
       _controller.stop();
@@ -163,7 +164,7 @@ class _ShimmerState extends State<Shimmer> with SingleTickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    if (widget.hide) return widget.child;
+    if (widget.bypassEffect) return widget.child;
     return AnimatedBuilder(
       animation: _controller,
       child: widget.child,
